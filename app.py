@@ -1,6 +1,7 @@
+from datetime import time
 from typing import Optional
 import httpx
-from fastapi import FastAPI, Request
+from fastapi import FastAPI, Request, __version__
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 from models import GithubUserModel
@@ -43,3 +44,7 @@ async def get_github_profile(request: Request, username: str) -> Optional[Github
     user = GithubUserModel(**response.json())
 
     return user
+
+@app.get('/ping')
+async def hello():
+    return {'res': 'pong', 'version': __version__, "time": time()}
